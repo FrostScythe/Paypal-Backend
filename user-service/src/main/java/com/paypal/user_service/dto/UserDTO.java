@@ -8,7 +8,7 @@ public class UserDTO {
     private Long id;
 
     @NotBlank(message = "Name cannot be blank")
-    @Size(min = 2, max = 50, message = "Name must be between 2 and 50 characters")
+    @Size(min = 3, message = "Name must be more than 3 characters")
     private String name;
 
     @NotBlank(message = "Email cannot be blank")
