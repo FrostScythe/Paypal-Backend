@@ -1,5 +1,6 @@
 package com.paypal.user_service.util;
 
+
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -10,6 +11,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+// You can use SLF4J for logging
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 import java.io.IOException;
 import java.util.List;
@@ -33,6 +38,11 @@ public class JWTrequestFilter extends OncePerRequestFilter {
                 username = jwtUtil.extractUsername(jwt);
             }catch (Exception e){
                 //log
+              // Add this at the top of your class (after line 19)
+              final Logger logger = LoggerFactory.getLogger(JWTrequestFilter.class);
+
+              // Replace the placeholder with a log statement
+              logger.error("Error extracting username from JWT", e);// You can use SLF4J for logging
             }
         }
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
@@ -72,6 +82,7 @@ public class JWTrequestFilter extends OncePerRequestFilter {
                 chain.doFilter(request, response);
             } catch (Exception e) {
                 // log error if you want
+                logger.error("Error processing JWT in filter", e);
             }
         } else {
             chain.doFilter(request, response);
@@ -80,18 +91,4 @@ public class JWTrequestFilter extends OncePerRequestFilter {
 
 
     }
-
-
-
 }
-
-
-
-
-
-
-
-
-
-
-

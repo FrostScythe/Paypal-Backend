@@ -9,7 +9,6 @@ import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
-import org.springframework.stereotype.Component;
 
 
 import java.util.Date;
@@ -18,7 +17,7 @@ import java.util.Map;
 
 @Component
 public class JWTUtil {
-    private static final String SECRET = "secret123secret123secret123secret123secret123secret123";
+    private static final String SECRET = "secret123secret123secret123secr56et123secret123secret123";
 
     private Key getSigningKey() {
         return Keys.hmacShaKeyFor(SECRET.getBytes());
