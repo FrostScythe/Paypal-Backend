@@ -1,12 +1,8 @@
 package com.paypal.transaction_service.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.Size;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
@@ -17,41 +13,25 @@ public class Transaction {
     private Long id;
 
     @Column(name="sender_name", nullable=false)
-    @NotBlank(message = "Sender name cannot be blank")
-    @Size(max = 100, message = "Sender name cannot exceed 100 characters")
     private String senderName;
 
     @Column(name="receiver_name", nullable=false)
-    @NotBlank(message = "Receiver name cannot be blank")
-    @Size(max = 100, message = "Receiver name cannot exceed 100 characters")
     private String receiverName;
 
-    @Column(nullable = false, precision = 19, scale = 2)
-    @NotNull(message = "Amount cannot be null")
+    @Column(nullable = false)
     @Positive(message = "Amount must be positive")
-    private BigDecimal amount;
+    private Double amount;
 
     @Column(nullable = false)
     private LocalDateTime timestamp;
 
     @Column(nullable = false)
-    @NotBlank(message = "Status cannot be blank")
     private String status;
 
     //Default constructor
     public Transaction(){}
 
-    // Fixed constructor parameter order to match field declaration order
-    public Transaction(String senderName, String receiverName, BigDecimal amount, String status) {
-        this.senderName = senderName;
-        this.receiverName = receiverName;
-        this.amount = amount;
-        this.status = status;
-        // timestamp will be set by @PrePersist
-    }
-
-    // Constructor with all fields (for testing purposes)
-    public Transaction(Long id, String senderName, String receiverName, BigDecimal amount, LocalDateTime timestamp, String status) {
+    public Transaction(Long id, String senderName, String receiverName, @Positive(message = "Amount must be positive") Double amount, LocalDateTime timestamp, String status) {
         this.id = id;
         this.senderName = senderName;
         this.receiverName = receiverName;
@@ -86,11 +66,11 @@ public class Transaction {
         this.receiverName = receiverName;
     }
 
-    public BigDecimal getAmount() {
+    public Double getAmount() {
         return amount;
     }
 
-    public void setAmount(BigDecimal amount) {
+    public void setAmount(Double amount) {
         this.amount = amount;
     }
 
@@ -101,7 +81,6 @@ public class Transaction {
     public void setTimestamp(LocalDateTime timestamp) {
         this.timestamp = timestamp;
     }
-
 
     public String getStatus() {
         return status;
@@ -117,20 +96,5 @@ public class Transaction {
         if (timestamp == null) {
             timestamp = LocalDateTime.now();
         }
-        if (status == null) {
-            status = "PENDING";
-        }
-    }
-
-    @Override
-    public String toString() {
-        return "Transaction{" +
-                "id=" + id +
-                ", senderName='" + senderName + '\'' +
-                ", receiverName='" + receiverName + '\'' +
-                ", amount=" + amount +
-                ", timestamp=" + timestamp +
-                ", status='" + status + '\'' +
-                '}';
     }
 }

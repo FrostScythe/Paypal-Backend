@@ -8,9 +8,6 @@ import jakarta.validation.constraints.Size;
 import java.math.BigDecimal;
 
 public class TransferRequest {
-
-    @NotBlank(message = "Sender name cannot be blank")
-    @Size(max = 100, message = "Sender name cannot exceed 100 characters")
     private String senderName;
 
     @NotBlank(message = "Receiver name cannot be blank")
