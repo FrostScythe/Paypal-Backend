@@ -1,6 +1,6 @@
 # PayPal User Service
 
-A robust Spring Boot microservice that handles user management operations with production-grade implementation.
+A robust Spring Boot microservice for user management, featuring JWT authentication, password encryption, and production-grade architecture.
 
 ## 🚀 Quick Start
 
@@ -37,13 +37,14 @@ src/
 ├── main/
 │   ├── java/
 │   │   └── com/paypal/user_service/
-│   │       ├── controller/     # REST API endpoints
+│   │       ├── controller/     # REST API endpoints (Auth & User)
 │   │       ├── dto/           # Data Transfer Objects
 │   │       ├── entity/        # JPA Entities
 │   │       ├── mapper/        # DTO <-> Entity converters
 │   │       ├── repository/    # Data access layer
 │   │       ├── security/      # Security configurations
-│   │       └── service/       # Business logic
+│   │       ├── service/       # Business logic
+│   │       └── util/          # JWT utilities & filters
 │   └── resources/
 │       └── application.properties  # Application configuration
 └── test/
@@ -51,20 +52,54 @@ src/
 ```
 
 ### Architectural Flow
-1. Client Request → UserController (REST Layer)
-2. UserDTO (Data Validation)
-3. UserMapper (DTO ↔ Entity conversion)
-4. UserService (Business Logic)
-5. UserRepository (Data Access)
+1. Client Request → AuthController/UserController (REST Layer)
+2. DTOs (Data Validation)
+3. Mapper (DTO ↔ Entity conversion)
+4. Service (Business Logic)
+5. Repository (Data Access)
 6. Database
 
 ## 🔐 Security Features
-- Spring Security implementation
-- Password encryption
+- Spring Security with JWT authentication
+- Password encryption (BCrypt)
 - API endpoint protection
-- CSRF security measures
+- CSRF disabled (for API usage)
 
 ## 📡 API Endpoints
+
+### Authentication
+```
+POST /auth/signup        - Register a new user
+POST /auth/login         - Login and receive JWT token
+```
+
+#### Example: Signup
+```json
+POST /auth/signup
+Request:
+{
+    "name": "John Doe",
+    "email": "john@example.com",
+    "password": "securePassword123"
+}
+Response:
+"User registered successfully" or error message
+```
+
+#### Example: Login
+```json
+POST /auth/login
+Request:
+{
+    "email": "john@example.com",
+    "password": "securePassword123"
+}
+Response:
+{
+    "token": "<JWT_TOKEN>",
+    "email": "john@example.com"
+}
+```
 
 ### User Management
 ```
@@ -73,23 +108,20 @@ GET  /api/users/{id}      - Get user by ID
 GET  /api/users/all       - Get all users
 ```
 
-### Request/Response Examples
-
-#### Create User
+#### Example: Create User
 ```json
 POST /api/users/create
 Request:
 {
-    "name": "John Doe",
-    "email": "john@example.com",
-    "password": "securePassword123"
+    "name": "Jane Doe",
+    "email": "jane@example.com",
+    "password": "anotherPassword"
 }
-
 Response:
 {
-    "id": 1,
-    "name": "John Doe",
-    "email": "john@example.com"
+    "id": 2,
+    "name": "Jane Doe",
+    "email": "jane@example.com"
 }
 ```
 
@@ -120,6 +152,11 @@ private String email;
 - Database operations
 - Custom query methods
 
+#### 4. JWT Authentication
+- JWT token generation and validation
+- Request filtering for protected endpoints
+- Stateless authentication
+
 ## 🧪 Testing
 
 Run tests using:
@@ -135,6 +172,7 @@ mvn test
    - Interface-based design
 
 2. **Security**
+   - JWT authentication
    - Password encryption
    - Protected endpoints
    - Input validation
@@ -152,7 +190,7 @@ mvn test
 ## 📚 Technical Stack
 
 - **Framework**: Spring Boot 3.x
-- **Security**: Spring Security
+- **Security**: Spring Security, JWT
 - **Database**: JPA/Hibernate
 - **Build Tool**: Maven
 - **Testing**: JUnit 5
@@ -168,6 +206,7 @@ Key technical highlights that demonstrate production-readiness:
 
 2. **Security Measures**
    - Spring Security integration
+   - JWT authentication
    - Password encryption
    - Protected endpoints
 
@@ -193,7 +232,6 @@ Key technical highlights that demonstrate production-readiness:
 
 ### Future Enhancements
 - Add role-based access control
-- Implement JWT authentication
 - Add API documentation with Swagger
 - Implement caching
 - Add monitoring and metrics

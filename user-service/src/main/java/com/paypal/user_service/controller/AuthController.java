@@ -51,8 +51,13 @@ public class AuthController {
 
 
     @PostMapping("/login")
+    //ResponseEntity is a class in Spring Framework used to represent the entire HTTP response, including status code, headers, and body.
+    //It allows you to customize the response returned from a controller method.
+    //For example, you can set the HTTP status, add headers, and provide a response body.
     public ResponseEntity<?> login(@RequestBody LoginRequest request) {
+        //The Optional<User> in this code is used to safely handle the result of searching for a user by email. It represents a value that may or may not be present.
         Optional<User> userOpt = userRepository.findByEmail(request.getEmail());
+
         if (userOpt.isEmpty()) {
             return ResponseEntity.status(401).body("❌ User not found");
         }

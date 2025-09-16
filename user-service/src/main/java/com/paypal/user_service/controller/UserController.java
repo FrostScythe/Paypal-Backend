@@ -15,7 +15,8 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
-
+//The constructor is created to inject the UserService dependency into the UserController using constructor-based dependency injection.
+// This approach is recommended in Spring because it makes the dependency explicit, supports immutability, and facilitates easier testing.
     public UserController(UserService userService) {
         this.userService = userService;
     }
