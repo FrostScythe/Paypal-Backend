@@ -1,0 +1,21 @@
+### Test POST request for Transaction Service
+POST http://localhost:8080/api/transactions/create
+Content-Type: application/json
+
+{
+  "senderName": "John Doe",
+  "receiverName": "Jane Smith",
+  "amount": 100.50,
+  "status": "Success"
+}
+
+### Alternative test with different data
+POST http://localhost:8080/api/transactions/create
+Content-Type: application/json
+
+{
+  "senderName": "Alice Johnson",
+  "receiverName": "Bob Wilson",
+  "amount": 250.75,
+  "status": "Pending"
+}

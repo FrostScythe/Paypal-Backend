@@ -12,11 +12,11 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name="sender_name", nullable=false)
-    private String senderName;
+    @Column(name="sender_Id", nullable=false)
+    private String senderId;
 
-    @Column(name="receiver_name", nullable=false)
-    private String receiverName;
+    @Column(name="receiver_Id", nullable=false)
+    private String receiverId;
 
     @Column(nullable = false)
     @Positive(message = "Amount must be positive")
@@ -33,8 +33,8 @@ public class Transaction {
 
     public Transaction(Long id, String senderName, String receiverName, @Positive(message = "Amount must be positive") Double amount, LocalDateTime timestamp, String status) {
         this.id = id;
-        this.senderName = senderName;
-        this.receiverName = receiverName;
+        this.senderId = senderName;
+        this.receiverId = receiverName;
         this.amount = amount;
         this.timestamp = timestamp;
         this.status = status;
@@ -50,20 +50,20 @@ public class Transaction {
         this.id = id;
     }
 
-    public String getSenderName() {
-        return senderName;
+    public String getSenderId() {
+        return senderId;
     }
 
-    public void setSenderName(String senderName) {
-        this.senderName = senderName;
+    public void setSenderId(String senderName) {
+        this.senderId = senderName;
     }
 
-    public String getReceiverName() {
-        return receiverName;
+    public String getReceiverId() {
+        return receiverId;
     }
 
-    public void setReceiverName(String receiverName) {
-        this.receiverName = receiverName;
+    public void setReceiverId(String receiverName) {
+        this.receiverId = receiverName;
     }
 
     public Double getAmount() {
