@@ -1,0 +1,33 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: api-gateway-service
+  cloud:
+    gateway:
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
+      routes:
+        - id: user-service
+          uri: http://localhost:8081
+          predicates:
+            - Path=/auth/**
+        - id: transaction-service
+          uri: http://localhost:8082
+          predicates:
+            - Path=/api/transactions/**
+        - id: reward-service
+          uri: http://localhost:8085
+          predicates:
+            - Path=/api/rewards/**
+        - id: notification-service
+          uri: http://localhost:8084
+          predicates:
+            - Path=/api/notifications/**
+      httpclient:
+        max-initial-line-length: 4096
+        max-header-size: 8192
+        filters:
+          - name: RequestSize
+            args:
+              maxRequestSize: 1MB

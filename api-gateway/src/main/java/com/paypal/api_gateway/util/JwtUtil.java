@@ -1,0 +1,25 @@
+package com.paypal.api_gateway.util;
+
+import java.security.Key;
+import io.jsonwebtoken.security.Keys;
+
+public class JwtUtil {
+    private static final String SECRET = "secret123secret123secret123secr56et123secret123secret123";
+
+    private static Key getSigningKey() {
+        return Keys.hmacShaKeyFor(SECRET.getBytes());
+    }
+
+    private static Key getSigniningKey() {
+        return Keys.hmacShaKeyFor(SECRET.getBytes());
+    }
+
+    public static Claims validateToken(String token){
+        return Jwts.parserBuilder()
+                .setSigningKey(getSigniningKey())
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+    }
+}
+\
